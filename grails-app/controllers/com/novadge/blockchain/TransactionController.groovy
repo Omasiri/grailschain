@@ -74,6 +74,7 @@ class TransactionController extends RestfulController {
      */
     def registerNode(){
 
+        //TODO : move this to node controller
         if(!params.nodes){
             render status: 401, message:"Please supply a valid list of nodes"
             return
@@ -93,6 +94,7 @@ class TransactionController extends RestfulController {
 
     def consensus(){
 
+        // TODO : move to node controller
         boolean  replaced = blockchain.resolveConflicts();
         Map resp = [:]
         if(replaced){

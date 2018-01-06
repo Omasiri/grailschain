@@ -106,6 +106,7 @@ public class Blockchain {
             URL url = new URL(addr);
             def response = url.getContent()
             if(response.status == 200){
+                // todo: implement properly
                 length = response.json.length;
                 ArrayList<Block> chain = response.json.chain;
 
