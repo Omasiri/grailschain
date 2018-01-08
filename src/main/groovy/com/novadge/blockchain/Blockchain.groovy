@@ -1,4 +1,6 @@
-package com.novadge.blockchain;
+package com.novadge.blockchain
+
+import groovy.json.JsonSlurper;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -24,16 +26,26 @@ public class Blockchain {
 
    }
 
+    /**
+     * Return the chain of transactions
+     * @return
+     */
     public ArrayList<Block> getChain() {
         return chain;
     }
 
-
-
+    /**
+     * Return a list of transactions
+     * @return
+     */
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
+    /**
+     * Return a list of registered blockchain servers/nodes
+     * @return
+     */
     public HashSet<String> getNodes(){
         return nodes;
     }
@@ -104,11 +116,12 @@ public class Blockchain {
         for(String node: nodes){
             String addr = node+"/chain"
             URL url = new URL(addr);
-            def response = url.getContent()
-            if(response.status == 200){
+            JsonSlurper slurper = new JsonSlurper()
+            def resp = slurper.parseText(url.getText())
+            if(resp.length){
                 // todo: implement properly
-                length = response.json.length;
-                ArrayList<Block> chain = response.json.chain;
+                def length = resp.length;
+                ArrayList<Block> chain = resp.chain;
 
                 if(length > maxLength && validChain(chain)){
                     maxLength = length;
